@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rock-Paper-Scissors</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: yellow;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    .hidden {
+      display: none;
+    }
+    button {
+      font-size: 16px;
+      padding: 10px 20px;
+      margin: 10px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+    }
+    button:hover {
+      background-color: lightgreen;
+    }
+    .choices button {
+      width: 100px;
+    }
+    .container {
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="name-entry">
+      <h1>Rock-Paper-Scissors Game</h1>
+      <label for="username">Enter your name:</label>
+      <input type="text" id="username" placeholder="Your Name">
+      <br>
+      <button onclick="startGame()">Start Game</button>
+    </div>
+
+    <div id="game-area" class="hidden">
+      <h2 id="welcome-message"></h2>
+      <div class="choices">
+        <button onclick="playGame('ROCK')">ROCK</button>
+        <button onclick="playGame('PAPER')">PAPER</button>
+        <button onclick="playGame('SCISSORS')">SCISSORS</button>
+      </div>
+      <p id="computer-choice"></p>
+      <p id="outcome"></p>
+      <button onclick="restartGame()">Restart</button>
+    </div>
+  </div>
+
+  <script>
+    let userName = "";
+    const choices = ["ROCK", "PAPER", "SCISSORS"];
+
+    function startGame() {
+      const nameInput = document.getElementById("username").value.trim();
+      if (!nameInput) {
+        alert("Please enter your name!");
+        return;
+      }
+      userName = nameInput;
+      document.getElementById("name-entry").classList.add("hidden");
+      document.getElementById("game-area").classList.remove("hidden");
+      document.getElementById("welcome-message").textContent = `Welcome to the game, ${userName}!`;
+    }
+
+    function playGame(userChoice) {
+      const computerChoice = choices[Math.floor(Math.random() * choices.length)];
+      document.getElementById("computer-choice").textContent = `Computer chose: ${computerChoice}`;
+      
+      let outcome = "";
+      if (userChoice === computerChoice) {
+        outcome = "IT'S A TIE!";
+      } else if (
+        (userChoice === "ROCK" && computerChoice === "SCISSORS") ||
+        (userChoice === "PAPER" && computerChoice === "ROCK") ||
+        (userChoice === "SCISSORS" && computerChoice === "PAPER")
+      ) {
+        outcome = `CONGRATULATIONS, ${userName}! YOU WON!`;
+      } else {
+        outcome = "COMPUTER WON THE MATCH!";
+      }
+      document.getElementById("outcome").textContent = outcome;
+    }
+
+    function restartGame() {
+      document.getElementById("name-entry").classList.remove("hidden");
+      document.getElementById("game-area").classList.add("hidden");
+      document.getElementById("username").value = "";
+      document.getElementById("computer-choice").textContent = "";
+      document.getElementById("outcome").textContent = "";
+    }
+  </script>
+</body>
+</html>
+
